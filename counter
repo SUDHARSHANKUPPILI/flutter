@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+void main() => runApp(
+  ChangeNotifierProvider(create: (_) => Counter(), child: MaterialApp(home: Home()))
+);
+
+class Counter extends ChangeNotifier {
+  int n = 0;
+  void inc() { n++; notifyListeners(); }
+}
+
+class Home extends StatefulWidget {
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int x = 0;
+  Widget build(c) {
+    var p = Provider.of<Counter>(c);
+    return Scaffold(
+      appBar: AppBar(title: Text('setState & Provider')),
+      body: Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('setState: $x'),
+          ElevatedButton(onPressed: ()=>setState(()=>x++), child: Text('Add')),
+          SizedBox(height: 20),
+          Text('Provider: ${p.n}'),
+          ElevatedButton(onPressed: p.inc, child: Text('Add')),
+        ],
+      )),
+    );
+  }
+}
